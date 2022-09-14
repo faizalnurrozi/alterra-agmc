@@ -14,8 +14,8 @@ type UserController struct {
 	lib.HTTPResponse
 }
 
-func NewUserController(HTTPResponse lib.HTTPResponse) *UserController {
-	return &UserController{HTTPResponse: HTTPResponse}
+func NewUserController() *UserController {
+	return &UserController{}
 }
 
 func (uc UserController) GetUsers(ctx echo.Context) error {

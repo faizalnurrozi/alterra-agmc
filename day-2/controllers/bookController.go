@@ -13,43 +13,42 @@ type BookController struct {
 	lib.HTTPResponse
 }
 
+func NewBookController() *BookController {
+	return &BookController{}
+}
+
 func (uc BookController) GetBooks(ctx echo.Context) error {
-	books, err := database.GetBooks()
+	var repositoryBook database.BookRepository
+	books, err := repositoryBook.GetAll()
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return ctx.JSON(http.StatusOK, map[string]interface{}{
-		"status": "success",
-		"books":  books,
-	})
+	return uc.ResponseOk(ctx, books)
 }
 
 func (uc BookController) GetBookByID(ctx echo.Context) error {
-	book, err := database.GetBookByID(2)
+	var repositoryBook database.BookRepository
+	book, err := repositoryBook.GetByID(2)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return ctx.JSON(http.StatusOK, map[string]interface{}{
-		"status": "success",
-		"book":   book,
-	})
+	return uc.ResponseOk(ctx, book)
 }
 
 func (uc BookController) Create(ctx echo.Context) error {
-	book, err := database.StoreBook()
+	var repositoryBook database.BookRepository
+	book, err := repositoryBook.Create()
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return ctx.JSON(http.StatusOK, map[string]interface{}{
-		"status": "success",
-		"book":   book,
-	})
+	return uc.ResponseOk(ctx, book)
 }
 
 func (uc BookController) Update(ctx echo.Context) error {
+	var repositoryBook database.BookRepository
 	var data = models.Book{
 		Title:         "Title updated",
 		Isbn:          "ISBN updated",
@@ -58,25 +57,20 @@ func (uc BookController) Update(ctx echo.Context) error {
 		DatePublished: time.Now(),
 		StatusDisplay: false,
 	}
-	book, err := database.UpdateBook(data, 4)
+	book, err := repositoryBook.Update(data, 4)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return ctx.JSON(http.StatusOK, map[string]interface{}{
-		"status": "success",
-		"book":   book,
-	})
+	return uc.ResponseOk(ctx, book)
 }
 
 func (uc BookController) Delete(ctx echo.Context) error {
-	_, err := database.DeleteBook(4)
+	var repositoryBook database.BookRepository
+	_, err := repositoryBook.Delete(4)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return ctx.JSON(http.StatusOK, map[string]interface{}{
-		"status": "success",
-		"book":   nil,
-	})
+	return uc.ResponseOk(ctx, nil)
 }

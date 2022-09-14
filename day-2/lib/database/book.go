@@ -6,7 +6,10 @@ import (
 	"time"
 )
 
-func GetBooks() (interface{}, error) {
+type BookRepository struct {
+}
+
+func (br BookRepository) GetAll() (interface{}, error) {
 	var books []models.Book
 
 	if err := config.DB.Find(&books).Error; err != nil {
@@ -15,7 +18,7 @@ func GetBooks() (interface{}, error) {
 	return books, nil
 }
 
-func GetBookByID(id int) (interface{}, error) {
+func (br BookRepository) GetByID(id int) (interface{}, error) {
 	var book models.Book
 
 	if err := config.DB.First(&book, id).Error; err != nil {
@@ -24,7 +27,7 @@ func GetBookByID(id int) (interface{}, error) {
 	return book, nil
 }
 
-func StoreBook() (interface{}, error) {
+func (br BookRepository) Create() (interface{}, error) {
 	book := models.Book{
 		Title:         "Title create new",
 		Isbn:          "ISBN create new",
@@ -40,7 +43,7 @@ func StoreBook() (interface{}, error) {
 	return book, nil
 }
 
-func UpdateBook(data models.Book, id int) (interface{}, error) {
+func (br BookRepository) Update(data models.Book, id int) (interface{}, error) {
 	var book models.Book
 
 	if err := config.DB.Find(&book, id).Error; err != nil {
@@ -60,7 +63,7 @@ func UpdateBook(data models.Book, id int) (interface{}, error) {
 	return book, nil
 }
 
-func DeleteBook(id int) (interface{}, error) {
+func (br BookRepository) Delete(id int) (interface{}, error) {
 	var book models.Book
 
 	if err := config.DB.Delete(&book, id).Error; err != nil {
