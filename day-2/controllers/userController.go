@@ -18,7 +18,7 @@ func NewUserController() *UserController {
 	return &UserController{}
 }
 
-func (uc UserController) GetUsers(ctx echo.Context) error {
+func (uc UserController) GetUsers(ctx echo.Context) (err error) {
 	var repositoryUser database.UserRepository
 	users, err := repositoryUser.GetAll()
 	if err != nil {
@@ -28,7 +28,7 @@ func (uc UserController) GetUsers(ctx echo.Context) error {
 	return uc.ResponseOk(ctx, users)
 }
 
-func (uc UserController) GetUserByID(ctx echo.Context) error {
+func (uc UserController) GetUserByID(ctx echo.Context) (err error) {
 	var repositoryUser database.UserRepository
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
@@ -43,10 +43,14 @@ func (uc UserController) GetUserByID(ctx echo.Context) error {
 	return uc.ResponseOk(ctx, users)
 }
 
-func (uc UserController) Create(ctx echo.Context) error {
+func (uc UserController) Create(ctx echo.Context) (err error) {
 	var repositoryUser database.UserRepository
 	req := new(requests.UserRequest)
-	if err := ctx.Bind(req); err != nil {
+	if err = ctx.Bind(req); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	if err = ctx.Validate(req); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
@@ -67,7 +71,7 @@ func (uc UserController) Create(ctx echo.Context) error {
 	return uc.ResponseOk(ctx, user)
 }
 
-func (uc UserController) Update(ctx echo.Context) error {
+func (uc UserController) Update(ctx echo.Context) (err error) {
 	var repositoryUser database.UserRepository
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
@@ -75,7 +79,11 @@ func (uc UserController) Update(ctx echo.Context) error {
 	}
 
 	req := new(requests.UserRequest)
-	if err := ctx.Bind(req); err != nil {
+	if err = ctx.Bind(req); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	if err = ctx.Validate(req); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 

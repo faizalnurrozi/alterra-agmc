@@ -2,11 +2,14 @@ package routes
 
 import (
 	"day2-crud/controllers"
+	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 )
 
 func New() *echo.Echo {
 	e := echo.New()
+	e.Validator = &CustomValidator{validator: validator.New()}
+
 	v1 := e.Group("/v1")
 
 	/**

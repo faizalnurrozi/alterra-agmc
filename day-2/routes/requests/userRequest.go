@@ -6,11 +6,11 @@ import (
 )
 
 type UserRequest struct {
-	Name          string               `json:"name"`
-	Email         string               `json:"email"`
-	Gender        models.GenderAllowed `json:"gender" sql:"type:gender"`
-	Nik           string               `json:"nik"`
-	BirthDate     time.Time            `json:"birth_date"`
+	Name          string               `json:"name" validate:"required"`
+	Email         string               `json:"email" validate:"required,email"`
+	Gender        models.GenderAllowed `json:"gender" sql:"type:gender" validate:"required"`
+	Nik           string               `json:"nik" validate:"required"`
+	BirthDate     time.Time            `json:"birth_date" validate:"required"`
 	MarriedStatus bool                 `json:"married_status"`
 	YearOfJoin    int                  `json:"year_of_join"`
 }
