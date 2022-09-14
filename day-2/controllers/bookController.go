@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"day2-crud/lib"
 	"day2-crud/lib/database"
 	"day2-crud/models"
 	"github.com/labstack/echo/v4"
@@ -8,7 +9,11 @@ import (
 	"time"
 )
 
-func GetBooksController(ctx echo.Context) error {
+type BookController struct {
+	lib.HTTPResponse
+}
+
+func (uc BookController) GetBooks(ctx echo.Context) error {
 	books, err := database.GetBooks()
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
@@ -20,7 +25,7 @@ func GetBooksController(ctx echo.Context) error {
 	})
 }
 
-func GetBookByIDController(ctx echo.Context) error {
+func (uc BookController) GetBookByID(ctx echo.Context) error {
 	book, err := database.GetBookByID(2)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
@@ -32,7 +37,7 @@ func GetBookByIDController(ctx echo.Context) error {
 	})
 }
 
-func StoreBook(ctx echo.Context) error {
+func (uc BookController) Create(ctx echo.Context) error {
 	book, err := database.StoreBook()
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
@@ -44,7 +49,7 @@ func StoreBook(ctx echo.Context) error {
 	})
 }
 
-func UpdateBook(ctx echo.Context) error {
+func (uc BookController) Update(ctx echo.Context) error {
 	var data = models.Book{
 		Title:         "Title updated",
 		Isbn:          "ISBN updated",
@@ -64,7 +69,7 @@ func UpdateBook(ctx echo.Context) error {
 	})
 }
 
-func DeleteBook(ctx echo.Context) error {
+func (uc BookController) Delete(ctx echo.Context) error {
 	_, err := database.DeleteBook(4)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())

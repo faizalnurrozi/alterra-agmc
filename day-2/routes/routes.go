@@ -13,11 +13,12 @@ func New() *echo.Echo {
 	 * Routes of books V1
 	 */
 
-	v1.GET("/books", controllers.GetBooksController)
-	v1.GET("/books/:id", controllers.GetBookByIDController)
-	v1.POST("/books", controllers.StoreBook)
-	v1.PUT("/books/:id", controllers.UpdateBook)
-	v1.DELETE("/books/:id", controllers.DeleteBook)
+	bookController := controllers.BookController{}
+	v1.GET("/books", bookController.GetBooks)
+	v1.GET("/books/:id", bookController.GetBookByID)
+	v1.POST("/books", bookController.Create)
+	v1.PUT("/books/:id", bookController.Update)
+	v1.DELETE("/books/:id", bookController.Delete)
 
 	/**
 	 * Routes of users v1

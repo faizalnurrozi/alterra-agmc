@@ -14,6 +14,10 @@ type UserController struct {
 	lib.HTTPResponse
 }
 
+func NewUserController(HTTPResponse lib.HTTPResponse) *UserController {
+	return &UserController{HTTPResponse: HTTPResponse}
+}
+
 func (uc UserController) GetUsers(ctx echo.Context) error {
 	var repositoryUser database.UserRepository
 	users, err := repositoryUser.GetAll()
