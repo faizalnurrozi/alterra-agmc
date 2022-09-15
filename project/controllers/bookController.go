@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"day2-crud/lib"
+	"day2-crud/config"
 	"day2-crud/lib/database"
 	"day2-crud/models"
 	"github.com/labstack/echo/v4"
@@ -10,7 +10,7 @@ import (
 )
 
 type BookController struct {
-	lib.HTTPResponse
+	config.HTTPResponse
 }
 
 func NewBookController() *BookController {

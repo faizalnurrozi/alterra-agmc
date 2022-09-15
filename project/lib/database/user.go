@@ -2,7 +2,10 @@ package database
 
 import (
 	"day2-crud/config"
+	"day2-crud/lib/utils"
+	"day2-crud/middlewares"
 	"day2-crud/models"
+	"errors"
 )
 
 type UserRepository struct {
@@ -26,6 +29,31 @@ func (ur UserRepository) GetByID(id int) (interface{}, error) {
 	return user, nil
 }
 
+func (ur UserRepository) Login(user *models.User) (interface{}, error) {
+	var err error
+	reqPassword := user.Password
+	if err = config.DB.Where("email = ?", user.Email).First(user).Error; err != nil {
+		return nil, err
+	}
+
+	hashing := utils.NewHashing()
+	match := hashing.CheckPasswordHash(reqPassword, user.Password)
+	if !match {
+		return nil, errors.New("Unauthorized")
+	}
+
+	user.Token, err = middlewares.JWTMiddleware{}.CreateToken(int(user.ID))
+	if err != nil {
+		return nil, err
+	}
+
+	if err = config.DB.Save(user).Error; err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
 func (ur UserRepository) Create(user models.User) (interface{}, error) {
 	if err := config.DB.Create(&user).Error; err != nil {
 		return nil, err
@@ -42,6 +70,7 @@ func (ur UserRepository) Update(data models.User, id int) (interface{}, error) {
 
 	user.Name = data.Name
 	user.Email = data.Email
+	user.Password = data.Password
 	user.Gender = data.Gender
 	user.Nik = data.Nik
 	user.BirthDate = data.BirthDate
