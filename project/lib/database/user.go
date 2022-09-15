@@ -54,14 +54,14 @@ func (ur UserRepository) Login(user *models.User) (interface{}, error) {
 	return user, nil
 }
 
-func (ur UserRepository) Create(user models.User) (interface{}, error) {
+func (ur UserRepository) Create(user *models.User) (interface{}, error) {
 	if err := config.DB.Create(&user).Error; err != nil {
 		return nil, err
 	}
 	return user, nil
 }
 
-func (ur UserRepository) Update(data models.User, id int) (interface{}, error) {
+func (ur UserRepository) Update(data *models.User, id int) (interface{}, error) {
 	var user models.User
 
 	if err := config.DB.Find(&user, id).Error; err != nil {

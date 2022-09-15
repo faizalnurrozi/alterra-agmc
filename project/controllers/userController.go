@@ -6,7 +6,6 @@ import (
 	"day2-crud/lib/utils"
 	"day2-crud/models"
 	"day2-crud/routes/requests"
-	"fmt"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"
@@ -33,7 +32,6 @@ func (uc UserController) GetUsers(ctx echo.Context) (err error) {
 func (uc UserController) GetUserByID(ctx echo.Context) (err error) {
 	var repositoryUser database.UserRepository
 	id, err := strconv.Atoi(ctx.Param("id"))
-	fmt.Println(id, "Bener ...")
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
@@ -48,13 +46,21 @@ func (uc UserController) GetUserByID(ctx echo.Context) (err error) {
 
 func (uc UserController) Login(ctx echo.Context) (err error) {
 	var repositoryUser database.UserRepository
-	req := models.User{}
+	req := requests.LoginRequest{}
 	err = ctx.Bind(&req)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	user, err := repositoryUser.Login(&req)
+	if err = ctx.Validate(req); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	var userReqLogin = models.User{
+		Email:    req.Email,
+		Password: req.Password,
+	}
+	user, err := repositoryUser.Login(&userReqLogin)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusUnauthorized, err.Error())
 	}
@@ -64,8 +70,9 @@ func (uc UserController) Login(ctx echo.Context) (err error) {
 
 func (uc UserController) Create(ctx echo.Context) (err error) {
 	var repositoryUser database.UserRepository
-	req := new(requests.UserRequest)
-	if err = ctx.Bind(req); err != nil {
+	req := models.User{}
+	err = ctx.Bind(&req)
+	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
@@ -79,17 +86,8 @@ func (uc UserController) Create(ctx echo.Context) (err error) {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	userModel := models.User{
-		Name:          req.Name,
-		Email:         req.Email,
-		Password:      password,
-		Gender:        req.Gender,
-		Nik:           req.Nik,
-		BirthDate:     req.BirthDate,
-		MarriedStatus: req.MarriedStatus,
-		YearOfJoin:    req.YearOfJoin,
-	}
-	user, err := repositoryUser.Create(userModel)
+	req.Password = password
+	user, err := repositoryUser.Create(&req)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
@@ -104,8 +102,9 @@ func (uc UserController) Update(ctx echo.Context) (err error) {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	req := new(requests.UserRequest)
-	if err = ctx.Bind(req); err != nil {
+	req := models.User{}
+	err = ctx.Bind(&req)
+	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
@@ -119,17 +118,8 @@ func (uc UserController) Update(ctx echo.Context) (err error) {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	userModel := models.User{
-		Name:          req.Name,
-		Email:         req.Email,
-		Password:      password,
-		Gender:        req.Gender,
-		Nik:           req.Nik,
-		BirthDate:     req.BirthDate,
-		MarriedStatus: req.MarriedStatus,
-		YearOfJoin:    req.YearOfJoin,
-	}
-	user, err := repositoryUser.Update(userModel, id)
+	req.Password = password
+	user, err := repositoryUser.Update(&req, id)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
