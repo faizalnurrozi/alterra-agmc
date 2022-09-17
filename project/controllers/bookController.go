@@ -26,7 +26,7 @@ func (uc BookController) GetBooks(ctx echo.Context) error {
 		}
 		return uc.ResponseOk(ctx, http.StatusOK, books)
 	}
-	return uc.ResponseOk(ctx, http.StatusBadRequest, nil)
+	return uc.ResponseOk(ctx, http.StatusMethodNotAllowed, nil)
 }
 
 func (uc BookController) GetBookByID(ctx echo.Context) error {
@@ -39,7 +39,7 @@ func (uc BookController) GetBookByID(ctx echo.Context) error {
 
 		return uc.ResponseOk(ctx, http.StatusOK, book)
 	}
-	return uc.ResponseOk(ctx, http.StatusBadRequest, nil)
+	return uc.ResponseOk(ctx, http.StatusMethodNotAllowed, nil)
 }
 
 func (uc BookController) Create(ctx echo.Context) error {
@@ -54,7 +54,7 @@ func (uc BookController) Create(ctx echo.Context) error {
 	} else if ctx.Request().Header.Get("Authorization") == "" {
 		return uc.ResponseOk(ctx, http.StatusUnauthorized, nil)
 	}
-	return uc.ResponseOk(ctx, http.StatusBadRequest, nil)
+	return uc.ResponseOk(ctx, http.StatusMethodNotAllowed, nil)
 }
 
 func (uc BookController) Update(ctx echo.Context) error {
@@ -77,7 +77,7 @@ func (uc BookController) Update(ctx echo.Context) error {
 	} else if ctx.Request().Header.Get("Authorization") == "" {
 		return uc.ResponseOk(ctx, http.StatusUnauthorized, nil)
 	}
-	return uc.ResponseOk(ctx, http.StatusBadRequest, nil)
+	return uc.ResponseOk(ctx, http.StatusMethodNotAllowed, nil)
 }
 
 func (uc BookController) Delete(ctx echo.Context) error {
@@ -92,5 +92,5 @@ func (uc BookController) Delete(ctx echo.Context) error {
 	} else if ctx.Request().Header.Get("Authorization") == "" {
 		return uc.ResponseOk(ctx, http.StatusUnauthorized, nil)
 	}
-	return uc.ResponseOk(ctx, http.StatusBadRequest, nil)
+	return uc.ResponseOk(ctx, http.StatusMethodNotAllowed, nil)
 }

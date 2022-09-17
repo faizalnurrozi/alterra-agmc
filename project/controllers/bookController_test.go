@@ -54,7 +54,7 @@ func TestBookController_GetBooks(t *testing.T) {
 			name:               "nok invalid method",
 			method:             http.MethodPost,
 			fields:             fields{Contract: contract},
-			statusCodeExpected: http.StatusBadRequest,
+			statusCodeExpected: http.StatusMethodNotAllowed,
 			wantErr:            true,
 		},
 	}
@@ -121,7 +121,7 @@ func TestBookController_GetBookByID(t *testing.T) {
 			method:             http.MethodPost,
 			id:                 "1",
 			fields:             fields{Contract: contract},
-			statusCodeExpected: http.StatusBadRequest,
+			statusCodeExpected: http.StatusMethodNotAllowed,
 			wantErr:            true,
 		},
 	}
@@ -204,7 +204,7 @@ func TestBookController_Create(t *testing.T) {
 			jwt:                true,
 			method:             http.MethodGet,
 			fields:             fields{Contract: contract},
-			statusCodeExpected: http.StatusBadRequest,
+			statusCodeExpected: http.StatusMethodNotAllowed,
 			wantErr:            true,
 		},
 	}
@@ -297,7 +297,7 @@ func TestBookController_Update(t *testing.T) {
 			method:             http.MethodPost,
 			id:                 "1",
 			fields:             fields{Contract: contract},
-			statusCodeExpected: http.StatusBadRequest,
+			statusCodeExpected: http.StatusMethodNotAllowed,
 			wantErr:            true,
 		},
 	}
@@ -390,7 +390,7 @@ func TestBookController_Delete(t *testing.T) {
 			method:             http.MethodPost,
 			id:                 "1",
 			fields:             fields{Contract: contract},
-			statusCodeExpected: http.StatusBadRequest,
+			statusCodeExpected: http.StatusMethodNotAllowed,
 			wantErr:            true,
 		},
 	}

@@ -32,14 +32,14 @@ func New() *echo.Echo {
 	 * Routes of users v1
 	 */
 
-	userController := controllers.NewUserController()
+	userController := controllers.NewUserController(contract)
 	v1.GET("/users", userController.GetUsers, jwtMiddleware)
 	v1.GET("/users/:id", userController.GetUserByID, jwtMiddleware)
 	v1.POST("/users", userController.Create)
 	v1.PUT("/users/:id", userController.Update, jwtMiddleware)
 	v1.DELETE("/users/:id", userController.Delete, jwtMiddleware)
 
-	v1.GET("/login", userController.Login)
+	v1.POST("/login", userController.Login)
 
 	return e
 }
