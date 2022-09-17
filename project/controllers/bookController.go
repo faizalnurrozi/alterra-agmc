@@ -22,7 +22,7 @@ func (uc BookController) GetBooks(ctx echo.Context) error {
 		repositoryBook := database.NewBookRepository(uc.DB)
 		books, err := repositoryBook.GetAll()
 		if err != nil {
-			return uc.ResponseOk(ctx, http.StatusBadRequest, err.Error())
+			return uc.ResponseOk(ctx, http.StatusBadRequest, nil)
 		}
 		return uc.ResponseOk(ctx, http.StatusOK, books)
 	}
@@ -34,7 +34,7 @@ func (uc BookController) GetBookByID(ctx echo.Context) error {
 		repositoryBook := database.NewBookRepository(uc.DB)
 		book, err := repositoryBook.GetByID(2)
 		if err != nil {
-			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+			return uc.ResponseOk(ctx, http.StatusBadRequest, nil)
 		}
 
 		return uc.ResponseOk(ctx, http.StatusOK, book)
@@ -47,7 +47,7 @@ func (uc BookController) Create(ctx echo.Context) error {
 		repositoryBook := database.NewBookRepository(uc.DB)
 		book, err := repositoryBook.Create()
 		if err != nil {
-			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+			return uc.ResponseOk(ctx, http.StatusBadRequest, nil)
 		}
 
 		return uc.ResponseOk(ctx, http.StatusCreated, book)
@@ -70,7 +70,7 @@ func (uc BookController) Update(ctx echo.Context) error {
 		}
 		book, err := repositoryBook.Update(data, 4)
 		if err != nil {
-			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+			return uc.ResponseOk(ctx, http.StatusBadRequest, nil)
 		}
 
 		return uc.ResponseOk(ctx, http.StatusOK, book)
@@ -85,7 +85,7 @@ func (uc BookController) Delete(ctx echo.Context) error {
 		repositoryBook := database.NewBookRepository(uc.DB)
 		_, err := repositoryBook.Delete(4)
 		if err != nil {
-			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+			return uc.ResponseOk(ctx, http.StatusBadRequest, nil)
 		}
 
 		return uc.ResponseOk(ctx, http.StatusOK, nil)
