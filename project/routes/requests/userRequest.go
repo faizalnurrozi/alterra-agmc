@@ -1,7 +1,7 @@
 package requests
 
 import (
-	"day2-crud/models"
+	"project/models"
 	"time"
 )
 

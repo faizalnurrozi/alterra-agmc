@@ -1,12 +1,12 @@
 package controllers
 
 import (
-	"day2-crud/config"
-	"day2-crud/middlewares"
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
+	"project/config"
+	"project/middlewares"
 	"testing"
 )
 

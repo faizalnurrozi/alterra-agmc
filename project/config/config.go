@@ -1,12 +1,12 @@
 package config
 
 import (
-	"day2-crud/models"
 	"fmt"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"os"
+	"project/models"
 )
 
 var DB *gorm.DB

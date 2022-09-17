@@ -1,13 +1,13 @@
 package controllers
 
 import (
-	"day2-crud/config"
-	"day2-crud/lib/database"
-	"day2-crud/lib/utils"
-	"day2-crud/models"
-	"day2-crud/routes/requests"
 	"github.com/labstack/echo/v4"
 	"net/http"
+	"project/config"
+	"project/lib/database"
+	"project/lib/utils"
+	"project/models"
+	"project/routes/requests"
 	"strconv"
 )
 

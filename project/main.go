@@ -1,9 +1,9 @@
 package main
 
 import (
-	"day2-crud/config"
-	"day2-crud/middlewares"
-	"day2-crud/routes"
+	"project/config"
+	"project/middlewares"
+	"project/routes"
 )
 
 func main() {

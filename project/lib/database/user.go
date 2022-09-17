@@ -1,11 +1,11 @@
 package database
 
 import (
-	"day2-crud/config"
-	"day2-crud/lib/utils"
-	"day2-crud/middlewares"
-	"day2-crud/models"
 	"errors"
+	"project/config"
+	"project/lib/utils"
+	"project/middlewares"
+	"project/models"
 )
 
 type UserRepository struct {

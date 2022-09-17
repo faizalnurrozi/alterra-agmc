@@ -1,9 +1,9 @@
 package database
 
 import (
-	"day2-crud/config"
-	"day2-crud/models"
 	"gorm.io/gorm"
+	"project/config"
+	"project/models"
 	"time"
 )
 

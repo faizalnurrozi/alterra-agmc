@@ -1,4 +1,4 @@
-module day2-crud
+module project
 
 go 1.19
 
