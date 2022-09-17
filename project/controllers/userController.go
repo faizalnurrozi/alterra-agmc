@@ -26,7 +26,7 @@ func (uc UserController) GetUsers(ctx echo.Context) (err error) {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return uc.ResponseOk(ctx, users)
+	return uc.ResponseOk(ctx, http.StatusOK, users)
 }
 
 func (uc UserController) GetUserByID(ctx echo.Context) (err error) {
@@ -41,7 +41,7 @@ func (uc UserController) GetUserByID(ctx echo.Context) (err error) {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return uc.ResponseOk(ctx, users)
+	return uc.ResponseOk(ctx, http.StatusOK, users)
 }
 
 func (uc UserController) Login(ctx echo.Context) (err error) {
@@ -65,7 +65,9 @@ func (uc UserController) Login(ctx echo.Context) (err error) {
 		return echo.NewHTTPError(http.StatusUnauthorized, err.Error())
 	}
 
-	return uc.ResponseOk(ctx, user)
+	ctx.Set("user", user)
+
+	return uc.ResponseOk(ctx, http.StatusOK, user)
 }
 
 func (uc UserController) Create(ctx echo.Context) (err error) {
@@ -92,7 +94,7 @@ func (uc UserController) Create(ctx echo.Context) (err error) {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return uc.ResponseOk(ctx, user)
+	return uc.ResponseOk(ctx, http.StatusOK, user)
 }
 
 func (uc UserController) Update(ctx echo.Context) (err error) {
@@ -124,7 +126,7 @@ func (uc UserController) Update(ctx echo.Context) (err error) {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return uc.ResponseOk(ctx, user)
+	return uc.ResponseOk(ctx, http.StatusOK, user)
 }
 
 func (uc UserController) Delete(ctx echo.Context) (err error) {
@@ -139,5 +141,5 @@ func (uc UserController) Delete(ctx echo.Context) (err error) {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return uc.ResponseOk(ctx, nil)
+	return uc.ResponseOk(ctx, http.StatusOK, nil)
 }

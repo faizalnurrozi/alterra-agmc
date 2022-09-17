@@ -10,6 +10,7 @@ import (
 )
 
 func New() *echo.Echo {
+	contract := config.Contract{DB: config.DB}
 	e := echo.New()
 	e.Validator = &config.CustomValidator{Validator: validator.New()}
 
@@ -20,7 +21,7 @@ func New() *echo.Echo {
 	 * Routes of books V1
 	 */
 
-	bookController := controllers.NewBookController()
+	bookController := controllers.NewBookController(contract)
 	v1.GET("/books", bookController.GetBooks)
 	v1.GET("/books/:id", bookController.GetBookByID)
 	v1.POST("/books", bookController.Create, jwtMiddleware)

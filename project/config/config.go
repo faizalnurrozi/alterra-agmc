@@ -15,7 +15,10 @@ func InitDB() {
 	var err error
 	err = godotenv.Load(".env")
 	if err != nil {
-		panic(err)
+		err = godotenv.Load("../.env")
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	config := map[string]string{
@@ -34,9 +37,6 @@ func InitDB() {
 		config["DB_PORT"],
 		config["DB_NAME"],
 	)
-
-	fmt.Print(connectionString)
-
 	DB, err = gorm.Open(mysql.Open(connectionString), &gorm.Config{})
 	if err != nil {
 		panic(err)

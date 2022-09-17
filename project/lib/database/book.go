@@ -3,31 +3,37 @@ package database
 import (
 	"day2-crud/config"
 	"day2-crud/models"
+	"gorm.io/gorm"
 	"time"
 )
 
 type BookRepository struct {
+	DB *gorm.DB
 }
 
-func (br BookRepository) GetAll() (interface{}, error) {
+func NewBookRepository(DB *gorm.DB) *BookRepository {
+	return &BookRepository{DB: DB}
+}
+
+func (s BookRepository) GetAll() (interface{}, error) {
 	var books []models.Book
 
-	if err := config.DB.Find(&books).Error; err != nil {
+	if err := s.DB.Find(&books).Error; err != nil {
 		return nil, err
 	}
 	return books, nil
 }
 
-func (br BookRepository) GetByID(id int) (interface{}, error) {
+func (s BookRepository) GetByID(id int) (interface{}, error) {
 	var book models.Book
 
-	if err := config.DB.First(&book, id).Error; err != nil {
+	if err := s.DB.First(&book, id).Error; err != nil {
 		return nil, err
 	}
 	return book, nil
 }
 
-func (br BookRepository) Create() (interface{}, error) {
+func (s BookRepository) Create() (interface{}, error) {
 	book := models.Book{
 		Title:         "Title create new",
 		Isbn:          "ISBN create new",
@@ -37,16 +43,16 @@ func (br BookRepository) Create() (interface{}, error) {
 		StatusDisplay: true,
 	}
 
-	if err := config.DB.Create(&book).Error; err != nil {
+	if err := s.DB.Create(&book).Error; err != nil {
 		return nil, err
 	}
 	return book, nil
 }
 
-func (br BookRepository) Update(data models.Book, id int) (interface{}, error) {
+func (s BookRepository) Update(data models.Book, id int) (interface{}, error) {
 	var book models.Book
 
-	if err := config.DB.Find(&book, id).Error; err != nil {
+	if err := s.DB.Find(&book, id).Error; err != nil {
 		return nil, err
 	}
 
@@ -63,10 +69,10 @@ func (br BookRepository) Update(data models.Book, id int) (interface{}, error) {
 	return book, nil
 }
 
-func (br BookRepository) Delete(id int) (interface{}, error) {
+func (s BookRepository) Delete(id int) (interface{}, error) {
 	var book models.Book
 
-	if err := config.DB.Delete(&book, id).Error; err != nil {
+	if err := s.DB.Delete(&book, id).Error; err != nil {
 		return nil, err
 	}
 
