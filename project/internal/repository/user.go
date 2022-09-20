@@ -1,0 +1,169 @@
+package repository
+
+import (
+	"context"
+	"github.com/faizalnurrozi/alterra-agmc/internal/dto"
+	"github.com/faizalnurrozi/alterra-agmc/internal/model"
+	pkgdto "github.com/faizalnurrozi/alterra-agmc/pkg/dto"
+	"github.com/faizalnurrozi/alterra-agmc/pkg/util"
+	"gorm.io/gorm"
+	"strings"
+	"time"
+)
+
+type User interface {
+	FindAll(ctx context.Context, payload *pkgdto.SearchGetRequest, p *pkgdto.Pagination) ([]model.User, *pkgdto.PaginationInfo, error)
+	FindByID(ctx context.Context, id uint) (model.User, error)
+	FindByEmail(ctx context.Context, email *string) (*model.User, error)
+	ExistByEmail(ctx context.Context, email *string) (bool, error)
+	ExistByID(ctx context.Context, id uint) (bool, error)
+	Save(ctx context.Context, user *dto.RegisterUserRequestBody) (model.User, error)
+	Edit(ctx context.Context, oldUser *model.User, updateData *dto.UpdateUserRequestBody) (*model.User, error)
+	Destroy(ctx context.Context, user *model.User) (*model.User, error)
+}
+
+type user struct {
+	Db *gorm.DB
+}
+
+func NewUserRepository(db *gorm.DB) *user {
+	return &user{
+		db,
+	}
+}
+
+func (r *user) FindAll(ctx context.Context, payload *pkgdto.SearchGetRequest, pagination *pkgdto.Pagination) ([]model.User, *pkgdto.PaginationInfo, error) {
+	var users []model.User
+	var count int64
+
+	query := r.Db.WithContext(ctx).Model(&model.User{})
+
+	if payload.Search != "" {
+		search := "%" + strings.ToLower(payload.Search) + "%"
+		query = query.Where("lower(name) LIKE ? or lower(email) Like ? ", search, search)
+	}
+
+	countQuery := query
+	if err := countQuery.Count(&count).Error; err != nil {
+		return nil, nil, err
+	}
+
+	limit, offset := pkgdto.GetLimitOffset(pagination)
+
+	err := query.Limit(limit).Offset(offset).Find(&users).Error
+
+	return users, pkgdto.CheckInfoPagination(pagination, count), err
+}
+
+func (r *user) FindByID(ctx context.Context, id uint) (model.User, error) {
+	var user model.User
+	q := r.Db.WithContext(ctx).Model(&model.User{}).Where("id = ?", id)
+	err := q.First(&user).Error
+	return user, err
+}
+
+func (r *user) FindByEmail(ctx context.Context, email *string) (*model.User, error) {
+	var data model.User
+	err := r.Db.WithContext(ctx).Where("email = ?", email).First(&data).Error
+	if err != nil {
+		return nil, err
+	}
+	return &data, nil
+}
+
+func (r *user) ExistByEmail(ctx context.Context, email *string) (bool, error) {
+	var (
+		count   int64
+		isExist bool
+	)
+	if err := r.Db.WithContext(ctx).Model(&model.User{}).Where("email = ?", email).Count(&count).Error; err != nil {
+		return isExist, err
+	}
+	if count > 0 {
+		isExist = true
+	}
+	return isExist, nil
+}
+
+func (r *user) ExistByID(ctx context.Context, id uint) (bool, error) {
+	var (
+		count   int64
+		isExist bool
+	)
+	if err := r.Db.WithContext(ctx).Model(&model.User{}).Where("id = ?", id).Count(&count).Error; err != nil {
+		return isExist, err
+	}
+	if count > 0 {
+		isExist = true
+	}
+	return isExist, nil
+}
+
+func (r *user) Save(ctx context.Context, user *dto.RegisterUserRequestBody) (model.User, error) {
+	dateString := user.BirthDate
+	BirthDate, _ := time.Parse("2006-01-02", dateString)
+	newUser := model.User{
+		Name:          user.Name,
+		Email:         user.Email,
+		Password:      user.Password,
+		Gender:        user.Gender,
+		Nik:           user.Nik,
+		BirthDate:     BirthDate,
+		MarriedStatus: user.MarriedStatus,
+		YearOfJoin:    user.YearOfJoin,
+	}
+	if err := r.Db.WithContext(ctx).Save(&newUser).Error; err != nil {
+		return newUser, err
+	}
+	return newUser, nil
+}
+
+func (r *user) Edit(ctx context.Context, oldUser *model.User, updateData *dto.UpdateUserRequestBody) (*model.User, error) {
+	if updateData.Name != nil {
+		oldUser.Name = *updateData.Name
+	}
+	if updateData.Name != nil {
+		oldUser.Name = *updateData.Name
+	}
+	if updateData.Password != nil {
+		hashedPassword, err := util.HashPassword(*updateData.Password)
+		if err != nil {
+			return nil, err
+		}
+		oldUser.Password = hashedPassword
+	}
+	if updateData.Gender != nil {
+		oldUser.Gender = *updateData.Gender
+	}
+	if updateData.Nik != nil {
+		oldUser.Nik = *updateData.Nik
+	}
+	if updateData.BirthDate != nil {
+		dateString := *updateData.BirthDate
+		BirthDate, _ := time.Parse("2006-01-02", dateString)
+		oldUser.BirthDate = BirthDate
+	}
+	if updateData.MarriedStatus != nil {
+		oldUser.MarriedStatus = *updateData.MarriedStatus
+	}
+	if updateData.YearOfJoin != nil {
+		oldUser.YearOfJoin = *updateData.YearOfJoin
+	}
+
+	if err := r.Db.
+		WithContext(ctx).
+		Save(oldUser).
+		Find(oldUser).
+		Error; err != nil {
+		return nil, err
+	}
+
+	return oldUser, nil
+}
+
+func (r *user) Destroy(ctx context.Context, user *model.User) (*model.User, error) {
+	if err := r.Db.WithContext(ctx).Delete(user).Error; err != nil {
+		return nil, err
+	}
+	return user, nil
+}

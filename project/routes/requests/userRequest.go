@@ -1,7 +1,7 @@
 package requests
 
 import (
-	"project/models"
+	"github.com/faizalnurrozi/alterra-agmc/models"
 	"time"
 )
 

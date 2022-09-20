@@ -2,10 +2,10 @@ package database
 
 import (
 	"errors"
-	"project/config"
-	"project/lib/utils"
-	"project/middlewares"
-	"project/models"
+	"github.com/faizalnurrozi/alterra-agmc/config"
+	"github.com/faizalnurrozi/alterra-agmc/lib/utils"
+	"github.com/faizalnurrozi/alterra-agmc/middlewares"
+	"github.com/faizalnurrozi/alterra-agmc/models"
 )
 
 type UserRepository struct {

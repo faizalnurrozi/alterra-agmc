@@ -1,9 +1,9 @@
 package database
 
 import (
+	"github.com/faizalnurrozi/alterra-agmc/config"
+	"github.com/faizalnurrozi/alterra-agmc/models"
 	"gorm.io/gorm"
-	"project/config"
-	"project/models"
 	"time"
 )
 

@@ -1,12 +1,12 @@
 package routes
 
 import (
+	"github.com/faizalnurrozi/alterra-agmc/config"
+	"github.com/faizalnurrozi/alterra-agmc/controllers"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"os"
-	"project/config"
-	"project/controllers"
 )
 
 func New() *echo.Echo {

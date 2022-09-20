@@ -1,11 +1,11 @@
 package controllers
 
 import (
+	"github.com/faizalnurrozi/alterra-agmc/config"
+	"github.com/faizalnurrozi/alterra-agmc/lib/database"
+	"github.com/faizalnurrozi/alterra-agmc/models"
 	"github.com/labstack/echo/v4"
 	"net/http"
-	"project/config"
-	"project/lib/database"
-	"project/models"
 	"time"
 )
 

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"project/config"
-	"project/middlewares"
-	"project/routes"
+	"github.com/faizalnurrozi/alterra-agmc/config"
+	"github.com/faizalnurrozi/alterra-agmc/middlewares"
+	"github.com/faizalnurrozi/alterra-agmc/routes"
 )
 
 func main() {

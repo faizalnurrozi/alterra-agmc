@@ -1,12 +1,12 @@
 package controllers
 
 import (
+	"github.com/faizalnurrozi/alterra-agmc/config"
+	"github.com/faizalnurrozi/alterra-agmc/middlewares"
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
-	"project/config"
-	"project/middlewares"
 	"testing"
 )
 

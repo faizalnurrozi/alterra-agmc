@@ -2,11 +2,11 @@ package config
 
 import (
 	"fmt"
+	"github.com/faizalnurrozi/alterra-agmc/models"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"os"
-	"project/models"
 )
 
 var DB *gorm.DB
