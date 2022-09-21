@@ -19,7 +19,6 @@ func userSeeder(db *gorm.DB) {
 			BirthDate:     now,
 			MarriedStatus: false,
 			YearOfJoin:    2012,
-			Token:         "",
 			Common: model.Common{
 				ID:        1,
 				CreatedAt: now,
@@ -35,7 +34,6 @@ func userSeeder(db *gorm.DB) {
 			BirthDate:     now,
 			MarriedStatus: false,
 			YearOfJoin:    2013,
-			Token:         "",
 			Common: model.Common{
 				ID:        2,
 				CreatedAt: now,
@@ -51,7 +49,6 @@ func userSeeder(db *gorm.DB) {
 			BirthDate:     now,
 			MarriedStatus: false,
 			YearOfJoin:    2014,
-			Token:         "",
 			Common: model.Common{
 				ID:        3,
 				CreatedAt: now,
