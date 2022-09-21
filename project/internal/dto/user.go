@@ -18,9 +18,14 @@ type (
 		YearOfJoin    *int    `json:"year_of_join" validate:"required"`
 	}
 	UserResponse struct {
-		ID    uint   `json:"id"`
-		Name  string `json:"name"`
-		Email string `json:"email"`
+		ID            uint      `json:"id"`
+		Name          string    `json:"name"`
+		Email         string    `json:"email"`
+		Gender        string    `json:"gender"`
+		Nik           string    `json:"nik"`
+		BirthDate     time.Time `json:"birth_date"`
+		MarriedStatus bool      `json:"married_status"`
+		YearOfJoin    int       `json:"year_of_join"`
 	}
 	UserWithJWTResponse struct {
 		UserResponse
@@ -31,5 +36,8 @@ type (
 		CreatedAt time.Time       `json:"created_at"`
 		UpdatedAt time.Time       `json:"updated_at"`
 		DeletedAt *gorm.DeletedAt `json:"deleted_at"`
+	}
+	UserDetailResponse struct {
+		UserResponse
 	}
 )

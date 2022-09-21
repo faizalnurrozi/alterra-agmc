@@ -25,12 +25,10 @@ func getTokenString(authHeader string) (*string, error) {
 	return nil, fmt.Errorf("authorization not found")
 }
 
-func CreateJWTClaims(email string, userID, roleID, divisionID uint) dto.JWTClaims {
+func CreateJWTClaims(email string, userID uint) dto.JWTClaims {
 	return dto.JWTClaims{
-		UserID:     userID,
-		Email:      email,
-		RoleID:     roleID,
-		DivisionID: divisionID,
+		UserID: userID,
+		Email:  email,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(JWT_EXP)),
 		},

@@ -45,7 +45,7 @@ func (s *service) LoginByEmailAndPassword(ctx context.Context, payload *dto.ByEm
 		)
 	}
 
-	claims := util.CreateJWTClaims(data.Email, data.ID, data.RoleID, data.DivisionID)
+	claims := util.CreateJWTClaims(data.Email, data.ID)
 	token, err := util.CreateJWTToken(claims)
 	if err != nil {
 		return result, res.ErrorBuilder(
@@ -56,9 +56,13 @@ func (s *service) LoginByEmailAndPassword(ctx context.Context, payload *dto.ByEm
 
 	result = &dto.UserWithJWTResponse{
 		UserResponse: dto.UserResponse{
-			ID:    data.ID,
-			Name:  data.Name,
-			Email: data.Email,
+			ID:         data.ID,
+			Name:       data.Name,
+			Email:      data.Email,
+			Gender:     data.Gender,
+			Nik:        data.Nik,
+			BirthDate:  data.BirthDate,
+			YearOfJoin: data.YearOfJoin,
 		},
 		JWT: token,
 	}
@@ -66,14 +70,14 @@ func (s *service) LoginByEmailAndPassword(ctx context.Context, payload *dto.ByEm
 	return result, nil
 }
 
-func (s *service) RegisterByEmailAndPassword(ctx context.Context, payload *dto.RegisterEmployeeRequestBody) (*dto.EmployeeWithJWTResponse, error) {
-	var result *dto.EmployeeWithJWTResponse
+func (s *service) RegisterByEmailAndPassword(ctx context.Context, payload *dto.RegisterUserRequestBody) (*dto.UserWithJWTResponse, error) {
+	var result *dto.UserWithJWTResponse
 	isExist, err := s.UserRepository.ExistByEmail(ctx, &payload.Email)
 	if err != nil {
 		return result, res.ErrorBuilder(&res.ErrorConstant.InternalServerError, err)
 	}
 	if isExist {
-		return result, res.ErrorBuilder(&res.ErrorConstant.Duplicate, errors.New("employee already exists"))
+		return result, res.ErrorBuilder(&res.ErrorConstant.Duplicate, errors.New("user already exists"))
 	}
 
 	hashedPassword, err := pkgutil.HashPassword(payload.Password)
@@ -87,7 +91,7 @@ func (s *service) RegisterByEmailAndPassword(ctx context.Context, payload *dto.R
 		return result, res.ErrorBuilder(&res.ErrorConstant.InternalServerError, err)
 	}
 
-	claims := util.CreateJWTClaims(data.Email, data.ID, data.RoleID, data.DivisionID)
+	claims := util.CreateJWTClaims(data.Email, data.ID)
 	token, err := util.CreateJWTToken(claims)
 	if err != nil {
 		return result, res.ErrorBuilder(
@@ -96,11 +100,16 @@ func (s *service) RegisterByEmailAndPassword(ctx context.Context, payload *dto.R
 		)
 	}
 
-	result = &dto.EmployeeWithJWTResponse{
-		EmployeeResponse: dto.EmployeeResponse{
-			ID:       data.ID,
-			Fullname: data.Fullname,
-			Email:    data.Email,
+	result = &dto.UserWithJWTResponse{
+		UserResponse: dto.UserResponse{
+			ID:            data.ID,
+			Name:          data.Name,
+			Email:         data.Email,
+			Gender:        data.Gender,
+			Nik:           data.Nik,
+			BirthDate:     data.BirthDate,
+			MarriedStatus: data.MarriedStatus,
+			YearOfJoin:    data.YearOfJoin,
 		},
 		JWT: token,
 	}
