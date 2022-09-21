@@ -18,14 +18,14 @@ type (
 		YearOfJoin    *int    `json:"year_of_join" validate:"required"`
 	}
 	UserResponse struct {
-		ID            uint      `json:"id"`
-		Name          string    `json:"name"`
-		Email         string    `json:"email"`
-		Gender        string    `json:"gender"`
-		Nik           string    `json:"nik"`
-		BirthDate     time.Time `json:"birth_date"`
-		MarriedStatus bool      `json:"married_status"`
-		YearOfJoin    int       `json:"year_of_join"`
+		ID            uint   `json:"id"`
+		Name          string `json:"name"`
+		Email         string `json:"email"`
+		Gender        string `json:"gender"`
+		Nik           string `json:"nik"`
+		BirthDate     string `json:"birth_date"`
+		MarriedStatus bool   `json:"married_status"`
+		YearOfJoin    int    `json:"year_of_join"`
 	}
 	UserWithJWTResponse struct {
 		UserResponse

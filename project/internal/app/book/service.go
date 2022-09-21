@@ -44,7 +44,7 @@ func (s *service) Find(ctx context.Context, payload *pkgdto.SearchGetRequest) (*
 			Isbn:          book.Isbn,
 			Author:        book.Author,
 			Publisher:     book.Publisher,
-			DatePublished: book.DatePublished,
+			DatePublished: book.DatePublished.String(),
 			StatusDisplay: book.StatusDisplay,
 		})
 
@@ -71,7 +71,7 @@ func (s *service) FindByID(ctx context.Context, payload *pkgdto.ByIDRequest) (*d
 	result.Isbn = data.Isbn
 	result.Author = data.Author
 	result.Publisher = data.Publisher
-	result.DatePublished = data.DatePublished
+	result.DatePublished = data.DatePublished.String()
 	result.StatusDisplay = data.StatusDisplay
 
 	return &result, nil
@@ -97,7 +97,7 @@ func (s *service) Store(ctx context.Context, payload *dto.CreateBookRequestBody)
 	result.Isbn = data.Isbn
 	result.Author = data.Author
 	result.Publisher = data.Publisher
-	result.DatePublished = data.DatePublished
+	result.DatePublished = data.DatePublished.String()
 	result.StatusDisplay = data.StatusDisplay
 
 	return &result, nil
@@ -121,7 +121,7 @@ func (s *service) UpdateById(ctx context.Context, payload *dto.UpdateBookRequest
 	result.Isbn = book.Isbn
 	result.Author = book.Author
 	result.Publisher = book.Publisher
-	result.DatePublished = book.DatePublished
+	result.DatePublished = book.DatePublished.String()
 	result.StatusDisplay = book.StatusDisplay
 
 	return &result, nil
@@ -146,7 +146,7 @@ func (s *service) DeleteById(ctx context.Context, payload *pkgdto.ByIDRequest) (
 			Isbn:          book.Isbn,
 			Author:        book.Author,
 			Publisher:     book.Publisher,
-			DatePublished: book.DatePublished,
+			DatePublished: book.DatePublished.String(),
 			StatusDisplay: book.StatusDisplay,
 		},
 		CreatedAt: book.CreatedAt,

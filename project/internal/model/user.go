@@ -15,6 +15,5 @@ type User struct {
 	BirthDate     time.Time `json:"birth_date" form:"birth_date" validate:"required"`
 	MarriedStatus bool      `json:"married_status" form:"married_status"`
 	YearOfJoin    int       `json:"year_of_join" form:"year_of_join"`
-	Token         string    `json:"token" form:"token"`
 	Common
 }
