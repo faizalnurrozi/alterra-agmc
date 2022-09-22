@@ -14,10 +14,10 @@ var (
 func CreateConnection() {
 	conf := dbConfig{
 		User: os.Getenv("DB_USERNAME"),
-		Pass: os.Getenv("db_password"),
-		Host: os.Getenv("db_host"),
-		Port: os.Getenv("db_port"),
-		Name: os.Getenv("db_name"),
+		Pass: os.Getenv("DB_PASSWORD"),
+		Host: os.Getenv("DB_HOST"),
+		Port: os.Getenv("DB_PORT"),
+		Name: os.Getenv("DB_NAME"),
 	}
 
 	mysql := mysqlConfig{dbConfig: conf}
