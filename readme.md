@@ -2,6 +2,8 @@
 
 This project (_**alterra-agmc**_) is a RESTful API with an agnostic approach, so developers only need to think about the business process.
 
+![Alt text](https://miro.medium.com/max/1100/1*kEomMfgNPu1srEAH7-Z_LA.png "Hexagonal Architecture")
+
 ## Features
 
 - Support [RESTful API](https://en.wikipedia.org/wiki/Representational_state_transfer). e.g. User & Book.
@@ -74,16 +76,5 @@ Push you docker image to docker hub registry:
 docker push <youruser>/alterra-agmc:<tag>
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+## Ref:
+- Hexagonal Architecture in Go: https://medium.com/@matiasvarela/hexagonal-architecture-in-go-cfd4e436faa3
