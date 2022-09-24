@@ -13,11 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: setup GO
-        uses: actions/setup-go@v3
-        with:
-          go-version: '>=1.17.0'
-
       - name: create env file
         env:
           PORT: ${{ secrets.APP_PORT }}
@@ -36,8 +31,8 @@ jobs:
           echo DB_PORT=$DB_PORT >> .env
           echo DB_NAME=$DB_NAME >> .env
           echo SECRET_JWT=$SECRET_JWT >> .env
-          ls /home/runner
 
+      - uses: actions/checkout@v2
       - name: Build, Push and Deploy to Heroku
         id: heroku
         uses: jctaveras/heroku-deploy@v1.0.0
@@ -45,5 +40,5 @@ jobs:
           email: ${{ secrets.HEROKU_EMAIL }}
           api_key: ${{ secrets.HEROKU_API_KEY }}
           app_name: ${{ secrets.HEROKU_APP_NAME }}
-          dockerfile_path: 'docker/go'
+          dockerfile_path: './docker/go'
           process_type: 'web'
