@@ -36,6 +36,7 @@ jobs:
           echo DB_PORT=$DB_PORT >> .env
           echo DB_NAME=$DB_NAME >> .env
           echo SECRET_JWT=$SECRET_JWT >> .env
+          cp ./docker/go/Dockerfile /home/runner/
 
       - name: Build, Push and Deploy to Heroku
         id: heroku
