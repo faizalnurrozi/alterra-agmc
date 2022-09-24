@@ -12,32 +12,15 @@ jobs:
     name: "Deployment to Heroku"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: create env file
-        env:
-          PORT: ${{ secrets.APP_PORT }}
-          DB_USERNAME: ${{ secrets.APP_DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.APP_DB_PASSWORD }}
-          DB_HOST: ${{ secrets.APP_DB_HOST }}
-          DB_PORT: ${{ secrets.APP_DB_PORT }}
-          DB_NAME: ${{ secrets.APP_DB_NAME }}
-          SECRET_JWT: ${{ secrets.APP_SECRET_JWT }}
-        run: |
-          touch .env
-          echo PORT=$PORT >> .env
-          echo DB_USERNAME=$DB_USERNAME >> .env
-          echo DB_PASSWORD=$DB_PASSWORD >> .env
-          echo DB_HOST=$DB_HOST >> .env
-          echo DB_PORT=$DB_PORT >> .env
-          echo DB_NAME=$DB_NAME >> .env
-          echo SECRET_JWT=$SECRET_JWT >> .env
-
-      - name: Build, Push and Deploy to Heroku
-        id: heroku
-        uses: jctaveras/heroku-deploy@v1.0.0
-        with:
-          email: ${{ secrets.HEROKU_EMAIL }}
-          api_key: ${{ secrets.HEROKU_API_KEY }}
-          app_name: ${{ secrets.HEROKU_APP_NAME }}
-          dockerfile_path: './docker/go'
-          process_type: 'web'
+      - name: Checkout
+        uses: actions/checkout@v2
+          - name: Build, Push and Deploy to Heroku #set the whatever name you want to this step
+            id: heroku
+            uses: jctaveras/heroku-deploy@v1.0.0  # use the latest version of the action
+            with:
+              email: ${{ secrets.HEROKU_EMAIL }} # your heroku email
+              api_key: ${{ secrets.HEROKU_API_KEY }} # your  heroku api key
+              app_name: ${{ secrets.HEROKU_APP_NAME }} # you aplication name
+              dockerfile_path: '' # set the path to the folder wher the Dokerfile is located
+              options: '' # Docker Build Options
+              formation: 'web' # Docker Dyno Formation. By default is web
